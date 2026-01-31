@@ -1,0 +1,114 @@
+/* ================= SMALL MOBILE RESPONSIVE ================= */
+@media (max-width: 480px) {
+    .dashboard-content {
+        gap: 12px;
+    }
+    
+    .card {
+        padding: 12px;
+    }
+    
+    .card-number {
+        font-size: 1.3em;
+    }
+    
+    .access-logs-section,
+    .schedules-section {
+        padding: 12px;
+    }
+    
+    .section-header h2 {
+        font-size: 0.9em;
+    }
+    
+    .filter-controls .time-filter {
+        min-width: 100px;
+        font-size: 0.7em;
+    }
+    
+    .filter-btn {
+        font-size: 0.7em;
+        padding: 5px 8px;
+    }
+    
+    .search-input {
+        font-size: 0.75em;
+        padding: 6px 8px;
+    }
+    
+    .table-container {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 4px;
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .access-logs-table {
+        min-width: 600px !important;
+        font-size: 0.7em !important;
+        width: 100% !important;
+        table-layout: fixed !important;
+    }
+    
+    .access-logs-table th,
+    .access-logs-table td {
+        padding: 12px 4px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .access-logs-table th:first-child,
+    .access-logs-table td:first-child {
+        width: 70px !important;
+        padding-left: 10px !important;
+    }
+    
+    .access-logs-table th:nth-child(2),
+    .access-logs-table td:nth-child(2) {
+        width: 120px !important;
+    }
+    
+    .access-logs-table th:nth-child(3),
+    .access-logs-table td:nth-child(3) {
+        width: 90px !important;
+    }
+    
+    .access-logs-table th:nth-child(4),
+    .access-logs-table td:nth-child(4) {
+        width: 80px !important;
+    }
+    
+    .access-logs-table th:nth-child(5),
+    .access-logs-table td:nth-child(5) {
+        width: 90px !important;
+        padding-right: 10px !important;
+    }
+    
+    .schedules-section {
+        padding: 12px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    .schedules-list {
+        max-height: 250px !important;
+        width: 100% !important;
+    }
+    
+    .schedule-item {
+        padding: 8px 0 !important;
+        width: 100% !important;
+    }
+    
+    .schedule-info h4 {
+        font-size: 0.8em !important;
+    }
+    
+    .schedule-date,
+    .schedule-time {
+        font-size: 0.7em !important;
+    }
+}

@@ -1,0 +1,1118 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f6f6f8;
+    color: #232323;
+    font-size: clamp(14px, 1vw, 16px);
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    overflow: hidden; /* Prevent body scrolling */
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 310px;
+    background: #EBECEE;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+/* Header */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(20px, 3.5vw, 40px);
+    padding: clamp(24px, 3vw, 32px) clamp(18px, 2vw, 24px);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: clamp(1.2em, 2.5vw, 1.6em);
+    font-weight: 700;
+}
+
+.logo img {
+    height: clamp(24px, 3vw, 32px);
+    margin-right: 0;
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+    background: none;
+    border: none;
+    font-size: clamp(1em, 1.5vw, 1.2em);
+    cursor: pointer;
+    padding: clamp(6px, 1vw, 8px);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* COLLAPSED STATE */
+.sidebar.collapsed .sidebar-header {
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding: 24px 0;
+}
+
+.sidebar.collapsed .sidebar-toggle {
+    order: -1; /* move to top */
+}
+
+/* Profile */
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f6f6f8;
+    border-radius: 10px;
+    margin: 16px;
+    padding: 12px;
+    cursor: pointer;
+    position: relative;
+}
+
+.profile img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #fff;
+    padding: 2px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-info .name {
+    font-weight: 600;
+}
+
+.profile-info .email {
+    font-size: 0.9em;
+    color: #888;
+}
+
+.profile-arrow {
+    margin-left: auto;
+    color: #888;
+}
+
+/* Profile drawer */
+.profile-drawer {
+    display: none;
+    position: fixed;
+    top: 160px;
+    left: 85px;
+    width: calc(100% - 170px);
+    max-width: 250px;
+    background: #fff;
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    z-index: 2000;
+}
+
+.profile.open .profile-drawer {
+    display: block;
+}
+
+/* Navigation */
+.sidebar nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.sidebar nav a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 32px;
+    margin: 2px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #5d5c5c;
+    font-size: 1.05em;
+    position: relative;
+}
+
+.sidebar nav a span {
+    white-space: nowrap;
+}
+
+.sidebar nav a.active,
+.sidebar nav a:hover {
+    background: #f2f2f2;
+}
+
+/* Bottom */
+.sidebar-bottom {
+    padding: 18px 32px;
+    border-top: 1px solid #ddd;
+}
+
+.sidebar-bottom .logout {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    font-size: 1.05em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ================= COLLAPSED ================= */
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar.collapsed span,
+.sidebar.collapsed .profile-info,
+.sidebar.collapsed .profile-arrow {
+    display: none;
+}
+
+.sidebar.collapsed .profile {
+    justify-content: center;
+    padding: 12px;
+    margin: 16px 8px;
+}
+
+.sidebar.collapsed nav a {
+    justify-content: center;
+}
+
+.sidebar.collapsed .logo {
+    justify-content: center;
+}
+
+/* Tooltips for collapsed sidebar (both desktop and mobile) */
+.sidebar.collapsed nav a::before {
+    content: attr(title);
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 10px;
+    background: #090909;
+    color: white;
+    padding: 3px 16px;
+    border-radius: 0px;
+    font-size: 0.7em;
+    font-weight: 400;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s ease, transform 0.1s ease;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.sidebar.collapsed nav a::after {
+    content: '';
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: -8px;
+    border: 8px solid transparent;
+    border-right-color: #000000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.sidebar.collapsed nav a:hover::before,
+.sidebar.collapsed nav a:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.sidebar.collapsed nav a:hover::before {
+    transform: translateY(-50%) translateX(5px);
+}
+
+/* ================= MAIN CONTENT ================= */
+.main-content {
+    flex: 1;
+    padding: 38px;
+    overflow-y: auto; /* Only main content scrollable */
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Desktop/web screens - show icons inline */
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-icons-mobile {
+    display: none; /* hide mobile dropdown by default */
+}
+
+
+.header-left h1 {
+    font-size: 2em;
+    font-weight: 600;
+    margin: 0;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.notification-bell {
+    position: relative;
+    cursor: pointer;
+    font-size: 1em;
+    color: #232323;
+    transition: color 0.3s ease;
+}
+
+.notification-bell:hover {
+    color: #000000;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #232323;
+    color: white;
+    font-size: 0.7em;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.profile-mini {
+    cursor: pointer;
+    position: relative;
+}
+
+.profile-mini img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #f6f6f8;
+    transition: border-color 0.3s ease;
+}
+
+.profile-mini:hover img {
+    border-color: #ddd;
+}
+
+/* Profile mini drawer */
+.profile-mini-drawer {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 70%;
+    margin-top: 0px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 15px 15px;
+    min-width: 180px;
+    z-index: 2000;
+}
+
+.profile-mini.active .profile-mini-drawer {
+    display: block;
+}
+
+.profile-mini-drawer b {
+    color: #232323;
+    font-size: 0.9em;
+}
+
+.profile-mini-drawer small {
+    color: #888;
+    font-size: 0.8em;
+}
+
+.profile-mini-drawer a {
+    transition: background-color 0.3s ease;
+    border-radius: 4px;
+}
+
+.profile-mini-drawer a:hover {
+    background-color: #f2f2f2;
+}
+
+.logout-icon {
+    cursor: pointer;
+    font-size: 1em;
+    color: #232323;
+    transition: color 0.3s ease;
+}
+
+.logout-icon:hover {
+    color: #000000;
+}
+
+/* ================= MOBILE MENU ================= */
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: #232323;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.mobile-menu-toggle:hover {
+    background-color: #f2f2f2;
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: row;
+    }
+
+    .sidebar-toggle {
+        display: none !important;
+    }
+
+    .sidebar {
+        position: fixed; /* Fix sidebar */
+        height: 100%;
+        width: 80px;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        overflow: hidden;
+        flex-direction: column;
+        transition: width 0.3s ease;
+    }
+
+    /* Mobile hover-only tooltips */
+    .sidebar {
+        overflow: visible !important;
+    }
+
+    .sidebar nav a {
+        position: relative;
+        overflow: visible;
+    }
+
+    .sidebar nav a::before {
+        content: attr(title);
+        position: absolute;
+        left: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-left: 10px;
+        background: #000000;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 0.85em;
+        font-weight: 500;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+        z-index: 2000;
+        pointer-events: none;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    }
+
+    .sidebar nav a::after {
+        content: '';
+        position: absolute;
+        left: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-left: 4px;
+        border: 5px solid transparent;
+        border-right-color: #000000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+        z-index: 2000;
+        pointer-events: none;
+    }
+
+    .sidebar nav a:hover::before,
+    .sidebar nav a:hover::after {
+        opacity: 1;
+        visibility: visible;
+    }
+    .sidebar-header {
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 8px;
+        position: relative;
+    }
+
+    /* Mobile three-dot menu fixed top-right inside sidebar */
+    .sidebar-toggle {
+        position: absolute;
+        top: 12px;
+        right: 8px;
+        order: -1;
+    }
+
+    /* Show TechnoKeeper text in mobile */
+    .logo {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .logo span {
+        display: block !important;
+        font-size: 0.35em;
+        margin-top: 5px;
+        text-align: center;
+        line-height: 1;
+    }
+
+    .sidebar img {
+        margin-right: 0;
+    }
+
+    .sidebar .profile-info,
+    .sidebar .profile-arrow {
+        display: none !important;
+    }
+
+    .sidebar nav a {
+        justify-content: center;
+        padding: 14px 12px;
+        margin: 2px 4px;
+    }
+
+    .sidebar .logo {
+        justify-content: center;
+    }
+
+    .sidebar .logo img {
+        margin-right: 0;
+    }
+
+    .sidebar .profile {
+        justify-content: center;
+        padding: 12px 12px;
+        margin: 16px 8px;
+    }
+
+    .sidebar .sidebar-header {
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        padding: 24px 8px;
+    }
+
+    .sidebar .sidebar-toggle {
+        order: -1;
+    }
+
+    .main-content {
+        margin-left: 80px; /* Leave space for fixed sidebar */
+        padding: 20px;
+        overflow-y: auto;
+        height: 100vh;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .header-right {
+        width: 100%;
+        justify-content: flex-start;
+        position: relative;
+    }
+
+    .header-icons {
+        display: none; /* hide desktop icons */
+    }
+
+    /* Mobile menu styles */
+    .mobile-menu-toggle {
+        display: block; /* show ellipsis */
+
+        position: fixed;      /* Fix it to the viewport */
+        top: 25px;            /* distance from top */
+        right: 12px;          /* distance from right */
+        z-index: 2000;        /* above sidebar and content */
+        display: block;
+        background: #ffffff79;     /* optional: white circle */
+        border-radius: 0%;   /* circular button */
+        padding: 7px;
+        cursor: pointer;
+        font-size: 1.2em;
+    }
+
+    .mobile-menu-toggle i {
+        display: block;
+    }
+}
+
+    .header-icons-mobile {
+        position: absolute;       /* position relative to nearest positioned parent */
+        top: 100%;                /* directly below the button */
+        right: 0;                 /* align right edge with button */
+        margin-top: 0px;          /* small spacing below button */
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        padding: 10px;
+        padding-left: 8px;
+        padding-right: 12px;
+        gap: 16px;
+        z-index: 2000;
+        min-width: 170px;
+        flex-direction: column;
+        align-items: flex-start;
+        display: none;            /* hide by default */
+    }
+
+    /* Show when toggled */
+    .header-icons-mobile.show {
+        display: flex;
+    }
+
+    /* Individual items styling */
+    .header-icons-mobile .notification-bell,
+    .header-icons-mobile .logout-icon {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 4px 0px;
+        margin: 0 3px;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+    }
+
+    .header-icons-mobile .profile-mini {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 7px 2px;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+        border-bottom: 1px solid #3230306c;
+        margin-bottom: 8px;
+    }
+
+    /* Icon labels - only show in mobile */
+    .header-icons-mobile .icon-label {
+        font-size: 0.9em;
+        color: #232323;
+        font-weight: 500;
+    }
+
+    .header-icons-mobile .notification-bell:hover,
+    .header-icons-mobile .profile-mini:hover,
+    .header-icons-mobile .logout-icon:hover {
+        background-color: #f2f2f2;
+    }
+
+/* ================= SCHEDULES PAGE STYLES ================= */
+.schedules-container {
+    display: flex;
+    gap: 24px;
+    height: calc(100vh - 140px);
+}
+
+.schedules-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.schedules-right {
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Search and Filters */
+.search-filters {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.search-bar {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar i {
+    position: absolute;
+    left: 16px;
+    color: #888;
+    font-size: 0.9em;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 12px 16px 12px 45px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95em;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+.filters {
+    display: flex;
+    gap: 12px;
+}
+
+.filters select {
+    padding: 10px 40px 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.9em;
+    background: #fff;
+    cursor: pointer;
+    min-width: 140px;
+    outline: none;
+    transition: border-color 0.2s ease;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%204%205%22%3E%3Cpath%20fill%3D%22%236b7280%22%20d%3D%22M2%200L0%202h4zm0%205L0%203h4z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 8px 10px;
+}
+
+.filters select:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.filters select:hover {
+    border-color: #9ca3af;
+}
+
+/* Add Schedule Button */
+.add-schedule-btn {
+    background: #000000;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.95em;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-end;
+    margin-left: auto;
+    transition: background-color 0.3s ease;
+}
+
+.add-schedule-btn:hover {
+    background: #333333;
+}
+
+/* Schedules Table */
+.schedules-table-container {
+    flex: 1;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.schedules-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+.schedules-table th {
+    background: #f8f9fa;
+    padding: 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 1px solid #ddd;
+}
+
+.schedules-table td {
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    color: #495057;
+}
+
+.schedules-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.schedules-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 500;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.status-badge.pending {
+    background: #460a15f4;
+    color: white;
+}
+
+.status-badge.approved {
+    background: #e9ecef;
+    color: #6c757d;
+}
+
+.status-badge.overridden {
+    background: #000000;
+    color: white;
+}
+
+/* Calendar */
+.calendar-container {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+
+.calendar-header h3 {
+    margin: 0 0 16px 0;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #232323;
+    text-align: center;
+}
+
+.calendar-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.calendar-weekdays div {
+    text-align: center;
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #888;
+    padding: 8px 0;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.calendar-day:hover {
+    background: #f8f9fa;
+}
+
+.calendar-day.empty {
+    cursor: default;
+}
+
+.calendar-day.highlighted {
+    background: #007bff;
+    color: white;
+    font-weight: 600;
+}
+
+.calendar-day.highlighted:hover {
+    background: #0056b3;
+}
+
+.calendar-day.today {
+    background: #000000;
+    color: white;
+    font-weight: 600;
+}
+
+.calendar-day.today:hover {
+    background: #333333;
+}
+
+.calendar-day.today::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+}
+
+.calendar-day.has-schedule {
+    background: #460a15f4;
+    color: white;
+    font-weight: 600;
+    position: relative;
+}
+
+.calendar-day.has-schedule:hover {
+    background: #54070fd5;
+}
+
+/* Past Schedules - Gray (quiet/background) */
+.calendar-day.has-past-schedule {
+    background: #e9ecef;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.calendar-day.has-past-schedule:hover {
+    background: #dee2e6;
+}
+
+/* Upcoming Schedules - Red (important/active) */
+.calendar-day.has-upcoming-schedule {
+    background: #460a15f4;
+    color: white;
+    font-weight: 600;
+    position: relative;
+}
+
+.calendar-day.has-upcoming-schedule:hover {
+    background: #54070fd5;
+}
+
+/* Today's Schedule - Black (special) */
+.calendar-day.has-today-schedule {
+    background: #000000;
+    color: white;
+    font-weight: 600;
+    position: relative;
+}
+
+.calendar-day.has-today-schedule:hover {
+    background: #333333;
+}
+
+/* Access Logs */
+.access-logs-container {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.access-logs-container h3 {
+    margin: 0 0 16px 0;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #232323;
+}
+
+.access-logs-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.access-log-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.access-log-item:last-child {
+    border-bottom: none;
+}
+
+.log-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.log-name {
+    font-weight: 500;
+    color: #232323;
+    font-size: 0.9em;
+}
+
+.log-status {
+    font-size: 0.8em;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    width: fit-content;
+}
+
+.log-status.granted {
+    background: #e9ecef;
+    color: #6c757d;
+}
+
+.log-status.denied {
+    background: #460a15f4;
+    color: white;
+}
+
+.log-time {
+    font-size: 0.8em;
+    color: #888;
+}
+
+.see-more-btn {
+    background: none;
+    border: 1px solid #ddd;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    color: #007bff;
+    cursor: pointer;
+    margin-top: 16px;
+    align-self: center;
+    transition: all 0.3s ease;
+}
+
+.see-more-btn:hover {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .schedules-container {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .schedules-right {
+        width: 100%;
+        flex-direction: row;
+    }
+    
+    .calendar-container {
+        flex: 1;
+    }
+    
+    .access-logs-container {
+        flex: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filters {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .filters select {
+        width: 100%;
+    }
+    
+    .schedules-right {
+        flex-direction: column;
+    }
+    
+    .schedules-table {
+        font-size: 0.8em;
+    }
+    
+    .schedules-table th,
+    .schedules-table td {
+        padding: 12px 8px;
+    }
+}
